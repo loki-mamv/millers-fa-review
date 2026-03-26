@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foot & Ankle Board Review — Miller's Review of Orthopaedics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #0b6dee;
+            --primary-green: #46ce6f;
+            --secondary-green: #198754;
+            --teal: #47d6c7;
+            --purple: #5a49e1;
+            --dark-text: #212529;
+            --light-gray: #f8f9fa;
+            --medium-gray: #6c757d;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background: var(--light-gray);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        /* Slide Container */
+        .slide-container {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+            background: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--purple);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            background: var(--medium-gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--teal));
+            transition: width 0.6s ease;
+            width: 0%;
+        }
+
+        /* Slide indicators */
+        .slide-indicators {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--medium-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .indicator.active {
+            background: var(--primary-blue);
+            transform: scale(1.5);
+        }
+
+        .indicator:hover::before {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-text);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1002;
+        }
+
+        /* Typography */
+        .slide h1 {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--teal);
+            padding-bottom: 0.5rem;
+        }
+
+        .slide h3 {
+            font-size: 2rem;
+            color: var(--purple);
+            margin-bottom: 1rem;
+        }
+
+        .slide h4 {
+            font-size: 1.5rem;
+            color: var(--secondary-green);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Lists */
+        .slide ul, .slide ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .slide li {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .slide .key-points {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid var(--primary-green);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .slide .testable-fact {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+            font-weight: 500;
+        }
+
+        .slide .critical-pearl {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            border-left: 4px solid var(--danger);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+            font-weight: 600;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: var(--light-gray);
+        }
+
+        .severity-table .stage1 { background: #d4edda; }
+        .severity-table .stage2 { background: #fff3cd; }
+        .severity-table .stage3 { background: #f8d7da; }
+        .severity-table .stage4 { background: #d1ecf1; }
+
+        /* Diagrams */
+        .diagram-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .diagram {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* SVG Diagrams */
+        svg {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            margin: 1rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .slide h1 { font-size: 2.2rem; }
+            .slide h2 { font-size: 1.8rem; }
+            .slide h3 { font-size: 1.5rem; }
+
+            .navigation {
+                top: 10px;
+                right: 10px;
+            }
+
+            .nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 15px;
+                margin: 5px;
+            }
+
+            .slide h1 { font-size: 1.8rem; }
+            .slide h2 { font-size: 1.5rem; }
+            .slide h3 { font-size: 1.3rem; }
+            
+            .slide-indicators {
+                bottom: 10px;
+                padding: 8px;
+            }
+        }
+
+        /* Custom styles for specific content */
+        .anatomy-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .classification-box {
+            border: 2px solid var(--primary-blue);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            background: rgba(11, 109, 238, 0.05);
+        }
+
+        .measurement-highlight {
+            background: var(--teal);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Print styles */
+        @media print {
+            .navigation, .slide-indicators, .progress-container {
+                display: none;
+            }
+            
+            .slide {
+                page-break-after: always;
+                min-height: auto;
+                margin: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn">‹</button>
+        <button class="nav-btn" id="nextBtn">›</button>
+    </div>
+
+    <div class="slide-container" id="slideContainer">
+        <!-- Slide 1: Title -->
+        <div class="slide">
+            <h1>Foot & Ankle Board Review</h1>
+            <div style="text-align: center; margin: 2rem 0;">
+                <h3 style="color: var(--secondary-green);">Miller's Review of Orthopaedics</h3>
+                <h4 style="color: var(--medium-gray); font-weight: 400;">9th Edition</h4>
+            </div>
+            <div style="text-align: center; margin: 3rem 0;">
+                <div style="background: linear-gradient(135deg, var(--primary-blue), var(--teal)); color: white; padding: 20px; border-radius: 12px; display: inline-block;">
+                    <h3 style="color: white; margin: 0;">Top Testable Topics</h3>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem;">30-Minute Resident Lecture</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Overview -->
+        <div class="slide">
+            <h2>Top Testable Topics Overview</h2>
+            <div class="key-points">
+                <ol style="font-size: 1.3rem; line-height: 2;">
+                    <li><strong>Trauma</strong> (Lisfranc, ankle fractures, talus fractures, calcaneus fractures)</li>
+                    <li><strong>Arthritic disease</strong></li>
+                    <li><strong>Hallux Valgus</strong></li>
+                    <li><strong>Posterior tibial tendon dysfunction / Pes Planus</strong></li>
+                    <li><strong>Ankle Sprains</strong></li>
+                    <li><strong>Diabetic foot</strong></li>
+                    <li><strong>Lisfranc Injury</strong></li>
+                    <li><strong>Achilles ruptures</strong></li>
+                </ol>
+            </div>
+            <div class="testable-fact">
+                <strong>Board Exam Focus:</strong> Classifications, normal values, operative indications, and complications
+            </div>
+        </div>
+
+        <!-- Slide 3: Biomechanics & Anatomy -->
+        <div class="slide">
+            <h2>Biomechanics & Anatomy</h2>
+            
+            <h3>Key Ankle Anatomy</h3>
+            <ul>
+                <li><strong>Hindfoot:</strong> talus, calcaneus, and cuboid</li>
+                <li><strong>Joints:</strong> subtalar, calcaneocuboid (CC), talonavicular (TN)</li>
+                <li><strong>Function:</strong> primarily inversion and eversion</li>
+            </ul>
+
+            <h3>Ligament Hierarchy (Strength)</h3>
+            <div class="anatomy-diagram">
+                <svg width="400" height="200" viewBox="0 0 400 200">
+                    <defs>
+                        <pattern id="tibia" patternUnits="userSpaceOnUse" width="4" height="4">
+                            <rect width="4" height="4" fill="#e3f2fd"/>
+                        </pattern>
+                    </defs>
+                    
+                    <!-- Ankle bones -->
+                    <rect x="50" y="20" width="100" height="40" fill="#2196f3" opacity="0.7"/>
+                    <text x="100" y="45" text-anchor="middle" fill="white" font-weight="bold">TIBIA</text>
+                    
+                    <rect x="160" y="20" width="60" height="40" fill="#1976d2" opacity="0.7"/>
+                    <text x="190" y="45" text-anchor="middle" fill="white" font-weight="bold">FIBULA</text>
+                    
+                    <ellipse cx="125" cy="100" rx="80" ry="30" fill="#4caf50" opacity="0.7"/>
+                    <text x="125" y="105" text-anchor="middle" fill="white" font-weight="bold">TALUS</text>
+                    
+                    <!-- Ligaments -->
+                    <line x1="160" y1="60" x2="100" y2="85" stroke="#ff5722" stroke-width="3"/>
+                    <text x="120" y="70" fill="#ff5722" font-weight="bold" font-size="12">ATFL (weakest)</text>
+                    
+                    <line x1="180" y1="60" x2="160" y2="85" stroke="#ff9800" stroke-width="4"/>
+                    <text x="175" y="78" fill="#ff9800" font-weight="bold" font-size="12">CFL</text>
+                    
+                    <line x1="200" y1="50" x2="180" y2="80" stroke="#4caf50" stroke-width="5"/>
+                    <text x="205" y="65" fill="#4caf50" font-weight="bold" font-size="12">PTFL (strongest)</text>
+                </svg>
+            </div>
+
+            <div class="testable-fact">
+                <strong>ATFL weakest → PTFL strongest</strong><br>
+                Can lead to avulsion injuries of distal tip of fibula
+            </div>
+        </div>
+
+        <!-- Slide 4: Gait Cycle -->
+        <div class="slide">
+            <h2>Gait Cycle Highlights</h2>
+            
+            <h3>Gait Mechanics</h3>
+            <ul>
+                <li><strong>One full stride:</strong> heel strike to heel strike</li>
+                <li><strong>Stance phase:</strong> heel strike to toe-off (<span class="measurement-highlight">62% of cycle</span>)</li>
+                <li><strong>Swing phase:</strong> toe-off to heel strike (<span class="measurement-highlight">38% of cycle</span>)</li>
+            </ul>
+
+            <h3>Key Muscle Actions</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Swing phase:</strong> Anterior tibialis contracts <em>concentrically</em>
+                        <ul><li>Loss → footdrop and steppage gait</li></ul>
+                    </li>
+                    <li><strong>Heel strike:</strong> Anterior tibialis contracts <em>eccentrically</em>
+                        <ul><li>Controls foot strike rate; footdrop causes loud "slap"</li></ul>
+                    </li>
+                    <li><strong>Foot flat:</strong> Gastrocnemius-soleus contracts <em>eccentrically</em>
+                        <ul><li>Controls forward body progression</li></ul>
+                    </li>
+                    <li><strong>Toe-off:</strong> Gastrocnemius-soleus contracts <em>concentrically</em>
+                        <ul><li>PTT fires to create rigid lever arm</li></ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="testable-fact">
+                <strong>Windlass Mechanism:</strong> Plantar fascia tightens as MTP joints extend → longitudinal arch accentuates → rigid propellant
+            </div>
+        </div>
+
+        <!-- Slide 5: Foot Positions vs Motions -->
+        <div class="slide">
+            <h2>Foot Positions vs Motions</h2>
+            
+            <h3>Hindfoot Mechanics</h3>
+            <ul>
+                <li><strong>Locked/Inverted:</strong> Initial heel strike</li>
+                <li><strong>Unlocked/Everted:</strong> Foot flat (ground accommodation)</li>
+                <li><strong>Supinated:</strong> Toe-off (rigid lever creation)</li>
+            </ul>
+
+            <h3>Cavovarus Pathology</h3>
+            <div class="critical-pearl">
+                <strong>Failure of hindfoot eversion:</strong> increased lateral foot forces
+                <ul>
+                    <li>Stress fractures (5th metatarsal)</li>
+                    <li>Callus formation</li>
+                    <li>Ankle instability</li>
+                </ul>
+            </div>
+
+            <h3>Transverse Tarsal Joint</h3>
+            <ul>
+                <li><strong>Foot flat:</strong> Unlocked for shock absorption</li>
+                <li><strong>Toe-off:</strong> Locked by PTT firing</li>
+                <li><strong>PTT dysfunction:</strong> Limits rigid lever creation</li>
+            </ul>
+
+            <div class="testable-fact">
+                <strong>Multiple etiologies of flatfoot:</strong> apex usually midfoot- or hindfoot-driven
+            </div>
+        </div>
+
+        <!-- Slide 6: Hallux Valgus - Pathoanatomy -->
+        <div class="slide">
+            <h2>Hallux Valgus — Pathoanatomy</h2>
+
+            <h3>Radiographic Measurements</h3>
+            <div class="anatomy-diagram">
+                <svg width="400" height="300" viewBox="0 0 400 300">
+                    <!-- First metatarsal -->
+                    <line x1="50" y1="150" x2="200" y2="100" stroke="#2196f3" stroke-width="8"/>
+                    <text x="125" y="115" fill="#2196f3" font-weight="bold">1st MT</text>
+                    
+                    <!-- Second metatarsal -->
+                    <line x1="60" y1="160" x2="220" y2="120" stroke="#4caf50" stroke-width="6"/>
+                    <text x="140" y="135" fill="#4caf50" font-weight="bold">2nd MT</text>
+                    
+                    <!-- Hallux -->
+                    <line x1="200" y1="100" x2="280" y2="80" stroke="#ff5722" stroke-width="6"/>
+                    <text x="240" y="95" fill="#ff5722" font-weight="bold">Hallux</text>
+                    
+                    <!-- IMA angle -->
+                    <path d="M 60 160 A 30 30 0 0 0 85 142" stroke="#ff9800" stroke-width="2" fill="none"/>
+                    <text x="75" y="145" fill="#ff9800" font-weight="bold" font-size="12">IMA</text>
+                    
+                    <!-- HVA angle -->
+                    <path d="M 200 100 A 25 25 0 0 0 220 110" stroke="#e91e63" stroke-width="2" fill="none"/>
+                    <text x="215" y="108" fill="#e91e63" font-weight="bold" font-size="12">HVA</text>
+                    
+                    <!-- DMAA -->
+                    <line x1="195" y1="95" x2="205" y2="105" stroke="#9c27b0" stroke-width="2"/>
+                    <text x="210" y="102" fill="#9c27b0" font-weight="bold" font-size="10">DMAA</text>
+                </svg>
+            </div>
+
+            <h3>Normal Values</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Measurement</th>
+                        <th>Normal Value</th>
+                        <th>Clinical Significance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>HVA</strong> (Hallux Valgus Angle)</td>
+                        <td>&lt;15°</td>
+                        <td>Primary deformity assessment</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>IMA</strong> (Intermetatarsal Angle)</td>
+                        <td>&lt;9°</td>
+                        <td>Determines surgical approach</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>DMAA</strong> (Distal Metatarsal Articular Angle)</td>
+                        <td>&lt;10°</td>
+                        <td>Joint congruency assessment</td>
+                    </tr>
+                    <tr class="stage4">
+                        <td><strong>Hallux Valgus Interphalangeus</strong></td>
+                        <td>&lt;10°</td>
+                        <td>Associated congruent deformity</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="testable-fact">
+                <strong>Pronation:</strong> leads to rounding of lateral head (should have flat contour)
+            </div>
+        </div>
+
+        <!-- Slide 7: Hallux Valgus - Surgical Algorithm -->
+        <div class="slide">
+            <h2>Hallux Valgus — Surgical Algorithm</h2>
+
+            <h3>Decision Algorithm</h3>
+            <div class="classification-box">
+                <h4>IMA ≤13° AND/OR HVA ≤40°</h4>
+                <p><strong>→ Distal osteotomy (e.g., chevron)</strong></p>
+            </div>
+
+            <div class="classification-box">
+                <h4>IMA ≥13° AND/OR HVA >40°</h4>
+                <p><strong>→ Proximal metatarsal osteotomy</strong></p>
+            </div>
+
+            <div class="classification-box">
+                <h4>Hyperlaxity or 1st TMT instability</h4>
+                <p><strong>→ Arthrodesis of 1st TMT</strong></p>
+            </div>
+
+            <h3>Mandatory in All Cases</h3>
+            <div class="critical-pearl">
+                <strong>Soft tissue release should be done in ALL scenarios</strong>
+            </div>
+
+            <h3>High Recurrence Risk</h3>
+            <ul>
+                <li>Undercorrection of IMA</li>
+                <li>Isolated soft tissue correction</li>
+                <li>Isolated medial eminence resection</li>
+                <li>Persistent lateral sesamoid subluxation</li>
+                <li>No soft tissue correction with osteotomy</li>
+            </ul>
+
+            <div class="testable-fact">
+                <strong>Juvenile/Adolescent:</strong> Recurrence is most common complication
+            </div>
+        </div>
+
+        <!-- Slide 8: Hallux Valgus - Special Considerations -->
+        <div class="slide">
+            <h2>Hallux Valgus — Special Considerations</h2>
+
+            <h3>Juvenile Hallux Valgus</h3>
+            <div class="classification-box">
+                <h4>IMA >13° with elevated DMAA</h4>
+                <p><strong>Proximal osteotomy OR open-wedge medial cuneiform osteotomy</strong></p>
+                <p><strong>PLUS medial closed-wedge distal osteotomy (biplanar chevron)</strong></p>
+                <p>→ Tilts joint back into correct position</p>
+            </div>
+
+            <h3>Nerve Injury Risk</h3>
+            <div class="critical-pearl">
+                <strong>Medial approaches:</strong> Risk injury to mediodorsal cutaneous nerve branch of superficial peroneal nerve
+            </div>
+
+            <h3>Hallux Varus (Iatrogenic)</h3>
+            <h4>Causes:</h4>
+            <ul>
+                <li>Fibular sesamoidectomy</li>
+                <li>Overcorrection of IMA</li>
+                <li>Over-resection of medial eminence</li>
+                <li>Excessive lateral soft tissue release</li>
+            </ul>
+
+            <h4>Treatment (flexible deformity):</h4>
+            <ul>
+                <li>Medial capsulotomy</li>
+                <li>Abductor hallucis tenotomy</li>
+                <li>Extensor tendon transfer (EHL or EHB)</li>
+                <li>May augment with suture button techniques</li>
+            </ul>
+        </div>
+
+        <!-- Slide 9: Lesser Toe Deformities -->
+        <div class="slide">
+            <h2>Lesser Toe Deformities</h2>
+
+            <h3>Pathophysiology</h3>
+            <ul>
+                <li><strong>Extrinsic muscles overpower intrinsics:</strong>
+                    <ul>
+                        <li>EDL drives MTP extension</li>
+                        <li>FDL drives PIP/DIP flexion</li>
+                    </ul>
+                </li>
+                <li><strong>FDL contracture:</strong> dynamic component of hammer toe</li>
+            </ul>
+
+            <h3>Crossover Toe (2nd Toe)</h3>
+            <div class="key-points">
+                <p><strong>Key component:</strong> Plantar plate disruption</p>
+                <p><strong>Plus:</strong> Lateral collateral ligament attenuation</p>
+                <p><strong>Most sensitive test:</strong> Anterior drawer test of lesser MTP joint</p>
+            </div>
+
+            <h3>Treatment Algorithm</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Deformity Type</th>
+                        <th>Flexible</th>
+                        <th>Fixed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Hammer/Claw Toes</td>
+                        <td>Flexor-to-extensor transfer OR FDL tenotomy ± PIP arthroplasty</td>
+                        <td>PIP arthrodesis</td>
+                    </tr>
+                    <tr>
+                        <td>Plantar Plate Injury</td>
+                        <td>Toe taping + metatarsal pads</td>
+                        <td>Surgical repair (high-level athletes)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="testable-fact">
+                <strong>Claw toes:</strong> Often neurogenic (CMT) or compartment syndrome complication
+            </div>
+        </div>
+
+        <!-- Slide 10: Ankle Sprains -->
+        <div class="slide">
+            <h2>Ankle Sprains</h2>
+
+            <h3>Lateral Ligament Anatomy</h3>
+            <div class="anatomy-diagram">
+                <svg width="400" height="250" viewBox="0 0 400 250">
+                    <!-- Fibula -->
+                    <rect x="50" y="20" width="20" height="120" fill="#1976d2"/>
+                    <text x="30" y="15" fill="#1976d2" font-weight="bold">Fibula</text>
+                    
+                    <!-- Talus -->
+                    <ellipse cx="150" cy="150" rx="60" ry="30" fill="#4caf50"/>
+                    <text x="150" y="155" text-anchor="middle" fill="white" font-weight="bold">Talus</text>
+                    
+                    <!-- Calcaneus -->
+                    <ellipse cx="200" cy="200" rx="80" ry="25" fill="#ff9800"/>
+                    <text x="200" y="205" text-anchor="middle" fill="white" font-weight="bold">Calcaneus</text>
+                    
+                    <!-- ATFL -->
+                    <line x1="70" y1="130" x2="120" y2="140" stroke="#ff5722" stroke-width="4"/>
+                    <text x="95" y="125" text-anchor="middle" fill="#ff5722" font-weight="bold">ATFL</text>
+                    
+                    <!-- CFL -->
+                    <line x1="70" y1="140" x2="140" y2="180" stroke="#e91e63" stroke-width="4"/>
+                    <text x="105" y="170" text-anchor="middle" fill="#e91e63" font-weight="bold">CFL</text>
+                    
+                    <!-- PTFL -->
+                    <line x1="50" y1="80" x2="100" y2="140" stroke="#9c27b0" stroke-width="4"/>
+                    <text x="75" y="100" text-anchor="middle" fill="#9c27b0" font-weight="bold">PTFL</text>
+                </svg>
+            </div>
+
+            <h3>Physical Examination</h3>
+            <ul>
+                <li><strong>Anterior drawer test:</strong> Checks ATFL competence</li>
+                <li><strong>Inversion in plantarflexion:</strong> Also evaluates ATFL</li>
+                <li><strong>Inversion in dorsiflexion:</strong> Evaluates CFL</li>
+            </ul>
+
+            <h3>Grading & Treatment</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>RICE protocol:</strong> Rest, Ice, Compression, Elevation</li>
+                    <li><strong>Physical therapy:</strong> Balance, proprioception, peroneal strengthening</li>
+                    <li><strong>Functional bracing + neuromuscular training:</strong> Decreases reinjury more than training alone</li>
+                </ul>
+            </div>
+
+            <h3>Chronic Instability</h3>
+            <div class="classification-box">
+                <p><strong>Brostrom procedure:</strong> Primary lateral ligament reconstruction</p>
+                <p><strong>Consider peroneal tendon pathology</strong> in chronic lateral ankle pain</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: PTT Dysfunction -->
+        <div class="slide">
+            <h2>PTT Dysfunction / Pes Planus</h2>
+
+            <h3>Clinical Presentation</h3>
+            <ul>
+                <li><strong>Symptoms:</strong> Medial ankle pain, progressive arch collapse, lateral hindfoot pain</li>
+                <li><strong>Physical exam:</strong> Asymmetric hindfoot valgus, depressed arch, abducted forefoot</li>
+                <li><strong>Key test:</strong> Inability to perform single-limb heel rise</li>
+                <li><strong>Too-many-toes sign:</strong> Visible lateral toes when viewing from behind</li>
+            </ul>
+
+            <h3>Johnson & Strom/Myerson Classification</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Description</th>
+                        <th>Treatment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>Stage 1</strong></td>
+                        <td>Tendinosis, no deformity</td>
+                        <td>Conservative</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>Stage 2</strong></td>
+                        <td>Flexible flatfoot, hindfoot valgus</td>
+                        <td>PTT repair/reconstruction + lateral column lengthening</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>Stage 3</strong></td>
+                        <td>Fixed/rigid deformity</td>
+                        <td>Double or triple arthrodesis</td>
+                    </tr>
+                    <tr class="stage4">
+                        <td><strong>Stage 4</strong></td>
+                        <td>Ankle valgus (deltoid insufficiency)</td>
+                        <td>Consider deltoid reconstruction or ankle replacement</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="critical-pearl">
+                <strong>Spring ligament:</strong> Primary static stabilizer of TN joint (superomedial band most important - 70%)
+            </div>
+
+            <div class="testable-fact">
+                <strong>Most common cause</strong> of adult-acquired flatfoot is PTT dysfunction
+            </div>
+        </div>
+
+        <!-- Slide 12: PTT Dysfunction - Surgery -->
+        <div class="slide">
+            <h2>PTT Dysfunction — Surgical Management</h2>
+
+            <h3>Operative Indications</h3>
+            <div class="classification-box">
+                <p><strong>6+ months</strong> of failed conservative measures</p>
+            </div>
+
+            <h3>Surgical Procedures</h3>
+            <ul>
+                <li><strong>Lateral column lengthening:</strong> Addresses hindfoot valgus, improves longitudinal arch</li>
+                <li><strong>Cotton osteotomy:</strong> Dorsal open-wedge of cuneiform to plantarflex 1st ray (corrects forefoot varus)</li>
+                <li><strong>Gastrocnemius recession:</strong> Often contracted (originates from posterior femur)</li>
+            </ul>
+
+            <h3>Surgical Approaches</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Severely abducted deformities:</strong> May need all-medial approach</li>
+                    <li><strong>Advantage:</strong> Limits wound-healing issues vs sinus tarsi approach</li>
+                    <li><strong>Cadaveric studies:</strong> >90% joint visualization from medial approach alone</li>
+                </ul>
+            </div>
+
+            <h3>Complications</h3>
+            <div class="critical-pearl">
+                <strong>Subtalar malunion in valgus:</strong> May require takedown and revision arthrodesis
+            </div>
+
+            <div class="testable-fact">
+                <strong>Contraindication:</strong> Smokers for four-corner fusion
+            </div>
+        </div>
+
+        <!-- Slide 13: Achilles Disorders -->
+        <div class="slide">
+            <h2>Achilles Disorders</h2>
+
+            <h3>Classification</h3>
+            <ul>
+                <li><strong>Insertional tendinosis:</strong> At bone-tendon junction</li>
+                <li><strong>Noninsertional tendinosis:</strong> 2-6 cm proximal to insertion</li>
+            </ul>
+
+            <h3>Physical Examination</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Silfverskiöld test:</strong> Evaluates contracture source
+                        <ul>
+                            <li>Lack of tension on Achilles → posterior capsule likely source</li>
+                        </ul>
+                    </li>
+                    <li><strong>Thompson test:</strong> Calf squeeze for rupture detection</li>
+                    <li><strong>Noninsertional:</strong> Fusiform thickening 2-6 cm proximal</li>
+                </ul>
+            </div>
+
+            <h3>Conservative Management</h3>
+            <ul>
+                <li>Heavy-load eccentric strengthening (highest success rate)</li>
+                <li>Activity modification, heel lifts</li>
+                <li>Silicone heel sleeves/pads</li>
+                <li>Physical therapy</li>
+            </ul>
+
+            <h3>Acute Rupture Management</h3>
+            <div class="classification-box">
+                <p><strong>Initial:</strong> Immobilization with foot in plantarflexion</p>
+            </div>
+        </div>
+
+        <!-- Slide 14: Achilles Rupture Surgery -->
+        <div class="slide">
+            <h2>Achilles Rupture — Surgical Management</h2>
+
+            <h3>Chronic Rupture Treatment Algorithm</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Gap After Débridement</th>
+                        <th>Treatment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>&lt;2 cm</strong></td>
+                        <td>End-to-end repair</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>2-5 cm</strong></td>
+                        <td>V-Y reconstruction</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>>5 cm</strong></td>
+                        <td>FHL transfer + possible turndown</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>FHL Transfer Indications</h3>
+            <ul>
+                <li>Large gaps (>5 cm) in chronic ruptures</li>
+                <li>May need gastrocnemius recession/lengthening</li>
+                <li>Takes tension off anterior tibial tendon reconstruction</li>
+            </ul>
+
+            <h3>Stenosis Location</h3>
+            <div class="testable-fact">
+                <strong>FHL stenosis:</strong> Between posterolateral and posteromedial tubercles of talus
+            </div>
+
+            <h3>Related Injuries</h3>
+            <div class="key-points">
+                <p><strong>Plantaris rupture:</strong> Similar mechanism to Achilles but managed with tall boot initially</p>
+            </div>
+        </div>
+
+        <!-- Slide 15: Diabetic Foot -->
+        <div class="slide">
+            <h2>Diabetic Foot</h2>
+
+            <h3>Neuropathy Assessment</h3>
+            <div class="testable-fact">
+                <strong>Semmes-Weinstein 5.07 monofilament (10 g):</strong> Inability to sense = neuropathy
+            </div>
+            <div class="critical-pearl">
+                <strong>Loss of protective sensation:</strong> 30% risk of ulcer development
+            </div>
+
+            <h3>Glucose Control</h3>
+            <ul>
+                <li><strong>A1c measurement:</strong> Ideal assessment (past 3 months)</li>
+                <li><strong>Elevated A1c:</strong> Increases failure risk of transmetatarsal amputation</li>
+            </ul>
+
+            <h3>Vascular Assessment</h3>
+            <ul>
+                <li><strong>Peripheral vascular disease:</strong> Present in 60-70% with DM >10 years</li>
+                <li><strong>Falsely elevated ABI:</strong> Due to vascular calcification</li>
+                <li><strong>TcPO2 >40 mmHg:</strong> Predictive of healing</li>
+            </ul>
+
+            <h3>Ischemia-Based Classification</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Grade</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Grade A</strong></td>
+                        <td>Normal vascularity</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade B</strong></td>
+                        <td>Ischemia without gangrene</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade C</strong></td>
+                        <td>Partial forefoot gangrene</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade D</strong></td>
+                        <td>Complete foot gangrene</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 16: Diabetic Foot - Ulcer Classification -->
+        <div class="slide">
+            <h2>Diabetic Foot — Ulcer Management</h2>
+
+            <h3>Wagner Classification & Treatment</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Grade</th>
+                        <th>Description</th>
+                        <th>Treatment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>Grade 0</strong></td>
+                        <td>At-risk foot</td>
+                        <td>Extra-depth shoe + pressure relief insoles</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>Grade 1</strong></td>
+                        <td>Superficial, no bone</td>
+                        <td>In-office débridement + total contact cast (TCC)</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>Grade 2</strong></td>
+                        <td>Deep with soft tissue exposure</td>
+                        <td>Operative débridement → dressing changes/TCC</td>
+                    </tr>
+                    <tr class="stage4">
+                        <td><strong>Grade 3</strong></td>
+                        <td>Osteomyelitis/abscess + exposed bone</td>
+                        <td>Surgical bone/soft tissue débridement → dressing changes/TCC</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Special Considerations</h3>
+            <ul>
+                <li><strong>Dorsal toe ulcers:</strong> Best treated with flexor tenotomies</li>
+                <li><strong>Plantar hallux IP ulcers:</strong> Failed TCC → Keller arthroplasty</li>
+                <li><strong>Plastazote lining:</strong> Closed cell, lightweight, shock-absorbing</li>
+            </ul>
+
+            <div class="critical-pearl">
+                <strong>Treatment often requires:</strong> Achilles lengthening to prevent recurrence + toe deformity correction
+            </div>
+        </div>
+
+        <!-- Slide 17: Charcot Arthropathy -->
+        <div class="slide">
+            <h2>Charcot Arthropathy (Neuroarthropathy)</h2>
+
+            <h3>Clinical Presentation</h3>
+            <ul>
+                <li><strong>Symptoms:</strong> Swelling, warmth, redness, deformity</li>
+                <li><strong>Pain:</strong> Present in up to 50% of patients</li>
+                <li><strong>Most common site:</strong> Midfoot, then ankle, then hindfoot</li>
+            </ul>
+
+            <h3>Eichenholtz Classification</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Description</th>
+                        <th>Treatment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>Development</strong></td>
+                        <td>Acute inflammation</td>
+                        <td>Non-weight-bearing TCC</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>Coalescence</strong></td>
+                        <td>Decreased inflammation</td>
+                        <td>Continue TCC</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>Consolidation</strong></td>
+                        <td>Healing, remodeling</td>
+                        <td>Gradual weight-bearing</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Pathophysiology</h3>
+            <div class="key-points">
+                <p><strong>TNF-α and IL-1β</strong> → increased NF-κB → increased osteoclast production → bone loss</p>
+            </div>
+
+            <h3>Timeline</h3>
+            <ul>
+                <li><strong>Acute phase resolution:</strong> TCC for 4-6 weeks</li>
+                <li><strong>Fragmentation to consolidation:</strong> 6-18 months</li>
+            </ul>
+
+            <div class="testable-fact">
+                <strong>Initial treatment:</strong> Non-weight-bearing status with TCC
+            </div>
+        </div>
+
+        <!-- Slide 18: Diabetic Foot - Surgery -->
+        <div class="slide">
+            <h2>Diabetic Foot — Surgical Considerations</h2>
+
+            <h3>Osteomyelitis</h3>
+            <ul>
+                <li><strong>Diagnosis:</strong> Labeled WBC scan or dual Tc/In scan (more sensitive than Tc alone)</li>
+                <li><strong>Incidence:</strong> 67% of foot ulcerations reaching bone</li>
+                <li><strong>Treatment:</strong> Antibiotics + surgical débridement</li>
+            </ul>
+
+            <h3>Charcot Arthrodesis</h3>
+            <div class="classification-box">
+                <h4>Unstable/unbraceable deformities</h4>
+                <p><strong>Tibiotalocalcaneal (TTC) arthrodesis</strong></p>
+                <ul>
+                    <li>Braceable/plantigrade foot</li>
+                    <li>Reduces ulceration risk</li>
+                    <li>Intramedullary rod preferred (vs external fixator)</li>
+                </ul>
+            </div>
+
+            <h3>Amputation Levels</h3>
+            <ul>
+                <li><strong>Syme:</strong> Requires intact heel pad</li>
+                <li><strong>Chopart:</strong> Transfer anterior tibialis to talus (prevent varus) + Achilles lengthening (prevent equinus)</li>
+            </ul>
+
+            <h3>Poor Healing Predictors</h3>
+            <div class="critical-pearl">
+                <ul>
+                    <li>Total protein &lt;6.0 g/dL</li>
+                    <li>WBC &lt;1500 cells/mm³</li>
+                    <li>Albumin &lt;2.5 g/dL</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 19: Lisfranc Injuries - Anatomy -->
+        <div class="slide">
+            <h2>Lisfranc Injuries — Anatomy</h2>
+
+            <h3>Anatomic Stability</h3>
+            <div class="anatomy-diagram">
+                <svg width="400" height="300" viewBox="0 0 400 300">
+                    <!-- Midfoot bones -->
+                    <rect x="100" y="100" width="40" height="20" fill="#2196f3"/>
+                    <text x="120" y="90" text-anchor="middle" font-size="10">Medial Cuneiform</text>
+                    
+                    <rect x="150" y="90" width="30" height="25" fill="#4caf50"/>
+                    <text x="165" y="80" text-anchor="middle" font-size="10">Middle Cuneiform</text>
+                    
+                    <rect x="190" y="95" width="35" height="22" fill="#ff9800"/>
+                    <text x="207" y="85" text-anchor="middle" font-size="10">Lateral Cuneiform</text>
+                    
+                    <!-- Metatarsals -->
+                    <rect x="110" y="140" width="15" height="60" fill="#e91e63"/>
+                    <text x="105" y="135" font-size="10">1st</text>
+                    
+                    <rect x="160" y="130" width="15" height="70" fill="#9c27b0"/>
+                    <text x="155" y="125" font-size="10">2nd</text>
+                    
+                    <rect x="185" y="135" width="15" height="65" fill="#607d8b"/>
+                    <text x="180" y="130" font-size="10">3rd</text>
+                    
+                    <!-- Keystone configuration -->
+                    <path d="M 160 90 L 175 130 L 160 130 Z" fill="#ffeb3b" opacity="0.7"/>
+                    <text x="168" y="115" font-size="8" text-anchor="middle">Keystone</text>
+                    
+                    <!-- Lisfranc ligament -->
+                    <line x1="135" y1="115" x2="165" y2="135" stroke="#ff5722" stroke-width="4"/>
+                    <text x="150" y="125" fill="#ff5722" font-weight="bold" font-size="10">Lisfranc</text>
+                    <text x="150" y="135" fill="#ff5722" font-size="8">Ligament</text>
+                </svg>
+            </div>
+
+            <h3>Lisfranc Ligament Components</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Relative Strength</th>
+                        <th>Clinical Significance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage3">
+                        <td><strong>Interosseous</strong></td>
+                        <td>Strongest & stiffest</td>
+                        <td>Primary stabilizer</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>Plantar</strong></td>
+                        <td>Intermediate</td>
+                        <td>Secondary support</td>
+                    </tr>
+                    <tr class="stage1">
+                        <td><strong>Dorsal</strong></td>
+                        <td>Weakest</td>
+                        <td>Often torn first</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="critical-pearl">
+                <strong>Keystone configuration:</strong> 2nd metatarsal base fits into mortise formed by recessed middle cuneiform
+            </div>
+
+            <div class="testable-fact">
+                <strong>Roman arch:</strong> Coronal plane configuration provides stability
+            </div>
+        </div>
+
+        <!-- Slide 20: Lisfranc Injuries - Diagnosis -->
+        <div class="slide">
+            <h2>Lisfranc Injuries — Diagnosis</h2>
+
+            <h3>Mechanism & Presentation</h3>
+            <ul>
+                <li><strong>Indirect:</strong> Axial loading of plantarflexed foot (most common)</li>
+                <li><strong>Direct:</strong> Motor vehicle accidents, crush injuries</li>
+                <li><strong>Clinical:</strong> Severe pain, inability to bear weight, marked swelling</li>
+            </ul>
+
+            <h3>Key Physical Finding</h3>
+            <div class="critical-pearl">
+                <strong>Plantar ecchymosis</strong> should raise suspicion for TMT/Lisfranc injury
+            </div>
+
+            <h3>Radiographic Diagnosis</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Pathognomonic:</strong> Lateral translation of 2nd metatarsal relative to middle cuneiform</li>
+                    <li><strong>Fleck sign:</strong> Small bony avulsion from 2nd metatarsal base in 1st intermetatarsal space</li>
+                    <li><strong>Stress views:</strong> Weight-bearing, abduction stress, single-limb views</li>
+                </ul>
+            </div>
+
+            <div class="anatomy-diagram">
+                <svg width="400" height="200" viewBox="0 0 400 200">
+                    <!-- Normal alignment -->
+                    <g transform="translate(50, 50)">
+                        <rect x="0" y="0" width="30" height="15" fill="#4caf50"/>
+                        <rect x="0" y="30" width="15" height="40" fill="#2196f3"/>
+                        <text x="40" y="10" font-size="12">Normal</text>
+                        <line x1="7.5" y1="15" x2="7.5" y2="30" stroke="#000" stroke-width="2"/>
+                    </g>
+                    
+                    <!-- Lisfranc injury -->
+                    <g transform="translate(250, 50)">
+                        <rect x="0" y="0" width="30" height="15" fill="#4caf50"/>
+                        <rect x="10" y="30" width="15" height="40" fill="#ff5722"/>
+                        <text x="40" y="10" font-size="12">Lisfranc</text>
+                        <text x="40" y="25" font-size="12">Injury</text>
+                        <!-- Fleck sign -->
+                        <circle cx="20" cy="25" r="2" fill="#ffeb3b"/>
+                        <text x="25" y="28" font-size="8">Fleck</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="testable-fact">
+                <strong>CT and MRI:</strong> Valuable for detecting occult fractures and preoperative planning
+            </div>
+        </div>
+
+        <!-- Slide 21: Lisfranc Injuries - Treatment -->
+        <div class="slide">
+            <h2>Lisfranc Injuries — Treatment</h2>
+
+            <h3>Emergency Management</h3>
+            <div class="critical-pearl">
+                <strong>Skin tenting:</strong> Urgent reduction needed to reduce compartment syndrome risk
+            </div>
+
+            <h3>Treatment Algorithm</h3>
+            <div class="classification-box">
+                <h4>Nonoperative (rare)</h4>
+                <p>No displacement on weight-bearing/stress radiographs + no bony injury on CT</p>
+            </div>
+
+            <div class="classification-box">
+                <h4>ORIF (standard)</h4>
+                <p><strong>Any displacement</strong> on radiographs OR evidence of bony injury</p>
+                <ul>
+                    <li>Anatomic reduction mandatory</li>
+                    <li>Open reduction often required</li>
+                    <li>Fixation: proximal to distal, medial to lateral</li>
+                </ul>
+            </div>
+
+            <h3>Fixation Strategy</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Fixation</th>
+                        <th>Removal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Medial/Middle</strong> (1st, 2nd, 3rd TMT)</td>
+                        <td>Screw fixation or dorsal plating</td>
+                        <td>4 months</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lateral</strong> (4th, 5th TMT)</td>
+                        <td>Temporary K-wire fixation</td>
+                        <td>6 weeks</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="testable-fact">
+                <strong>Dorsal plating:</strong> Less iatrogenic articular damage, lower malreduction risk
+            </div>
+        </div>
+
+        <!-- Slide 22: Lisfranc Injuries - Complications -->
+        <div class="slide">
+            <h2>Lisfranc Injuries — Complications & Alternatives</h2>
+
+            <h3>Primary Arthrodesis</h3>
+            <div class="classification-box">
+                <h4>Indications:</h4>
+                <ul>
+                    <li>Purely ligamentous high-energy injury</li>
+                    <li>Significant intraarticular comminution</li>
+                    <li>Chronic injury patterns</li>
+                </ul>
+                <h4>Advantages:</h4>
+                <ul>
+                    <li>Reduced hardware removal rates</li>
+                    <li>Reduced costs vs ORIF</li>
+                    <li>Similar patient-reported outcomes</li>
+                </ul>
+            </div>
+
+            <h3>Complications of Missed/Poor Treatment</h3>
+            <div class="critical-pearl">
+                <strong>Traumatic planovalgus deformity</strong> or <strong>posttraumatic arthritis</strong>
+                <br><strong>→ Salvage:</strong> Open reduction + midfoot arthrodesis
+            </div>
+
+            <h3>Associated Injuries</h3>
+            <ul>
+                <li><strong>Cuboid injuries (nutcracker):</strong> From abduction force</li>
+                <li><strong>Proximal variant:</strong> Forces through intercuneiform joint</li>
+                <li><strong>Compartment syndrome:</strong> Risk with severe displacement</li>
+            </ul>
+
+            <div class="testable-fact">
+                <strong>Anatomic reduction</strong> is most predictive of good clinical results
+            </div>
+        </div>
+
+        <!-- Slide 23: Ankle Fractures - Classification -->
+        <div class="slide">
+            <h2>Ankle Fractures — Classification & Evaluation</h2>
+
+            <h3>Lauge-Hansen Classification</h3>
+            <div class="key-points">
+                <p><strong>Position of foot (1st word) + Direction of force (2nd word)</strong></p>
+            </div>
+
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Pattern</th>
+                        <th>Characteristics</th>
+                        <th>Special Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>Supination-Adduction</strong></td>
+                        <td>Vertical medial malleolus + low transverse fibular</td>
+                        <td>Associated with 2nd orthopaedic injuries</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>SER</strong> (most common)</td>
+                        <td>Oblique fibula at syndesmosis level</td>
+                        <td>Stress test determines stability</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>Pronation-Abduction</strong></td>
+                        <td>Comminuted fibula above syndesmosis</td>
+                        <td>Obvious syndesmotic disruption</td>
+                    </tr>
+                    <tr class="stage4">
+                        <td><strong>Pronation-ER</strong></td>
+                        <td>Oblique fibula above syndesmosis</td>
+                        <td>Slight syndesmotic widening</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Danis-Weber Classification</h3>
+            <ul>
+                <li><strong>A (infrasyndesmotic):</strong> Stable, rarely operative</li>
+                <li><strong>B (transsyndesmotic):</strong> Variably unstable</li>
+                <li><strong>C (suprasyndesmotic):</strong> Inherently unstable</li>
+            </ul>
+
+            <div class="testable-fact">
+                <strong>Log splitter injury:</strong> Talus displaced into syndesmotic space → 54-85% posttraumatic arthritis risk
+            </div>
+        </div>
+
+        <!-- Slide 24: Ankle Fractures - Management -->
+        <div class="slide">
+            <h2>Ankle Fractures — Management Principles</h2>
+
+            <h3>Key Radiographic Measurements</h3>
+            <div class="classification-box">
+                <h4>At 10 mm above plafond:</h4>
+                <ul>
+                    <li><strong>Tibiofibular clear space:</strong> &lt;6 mm (most predictive of syndesmotic disruption)</li>
+                    <li><strong>Tibiofibular overlap:</strong> >6 mm (AP), >1 mm (mortise)</li>
+                </ul>
+            </div>
+
+            <h3>Critical Concepts</h3>
+            <div class="critical-pearl">
+                <strong>1 mm lateral talar shift</strong> = <strong>42% decrease</strong> in tibiotalar contact area
+            </div>
+
+            <h3>Deltoid Ligament Assessment</h3>
+            <ul>
+                <li><strong>External rotation/gravity stress radiographs</strong></li>
+                <li><strong>Medial clear space widening</strong> indicates deep deltoid disruption</li>
+                <li><strong>Implies unstable fracture pattern</strong></li>
+            </ul>
+
+            <h3>Posterior Malleolus</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Contributes 70% syndesmotic stability</strong></li>
+                    <li><strong>ORIF indications:</strong> >25% articular surface OR >2 mm displacement</li>
+                    <li><strong>Recent emphasis:</strong> Displacement more important than size</li>
+                </ul>
+            </div>
+
+            <div class="testable-fact">
+                <strong>Braking recovery:</strong> Average 9 weeks after operative ankle fracture fixation
+            </div>
+        </div>
+
+        <!-- Slide 25: Syndesmosis & Complications -->
+        <div class="slide">
+            <h2>Ankle Fractures — Syndesmosis & Complications</h2>
+
+            <h3>Syndesmotic Fixation</h3>
+            <div class="classification-box">
+                <h4>Flexible fixation preferred:</h4>
+                <p><strong>Suture button devices</strong> show superior outcomes vs screw fixation</p>
+            </div>
+
+            <h3>Key Technical Points</h3>
+            <ul>
+                <li><strong>Most common complication:</strong> Malreduction (up to 52%)</li>
+                <li><strong>Clamp positioning:</strong> 15° external rotation relative to foot</li>
+                <li><strong>No benefit to screw removal</strong> (retained/broken screws not detrimental)</li>
+                <li><strong>Dorsiflexion not critical</strong> during reduction</li>
+            </ul>
+
+            <h3>Special Populations</h3>
+            <h4>Diabetic Patients:</h4>
+            <div class="critical-pearl">
+                <ul>
+                    <li><strong>Non-weight-bearing period:</strong> Double that of non-diabetics (3 months)</li>
+                    <li><strong>Additional fixation:</strong> Consider syndesmotic ladder or external fixation</li>
+                    <li><strong>Biggest risk factor:</strong> Presence of neuropathy</li>
+                    <li><strong>Amputation rate:</strong> Up to 30%</li>
+                </ul>
+            </div>
+
+            <h3>Malunion Treatment</h3>
+            <ul>
+                <li>Fibular osteotomy to restore length</li>
+                <li>Medial gutter débridement</li>
+                <li>Syndesmosis reconstruction</li>
+            </ul>
+        </div>
+
+        <!-- Slide 26: Talus Fractures -->
+        <div class="slide">
+            <h2>Talus Fractures</h2>
+
+            <h3>Anatomical Considerations</h3>
+            <ul>
+                <li><strong>Blood supply:</strong> Mainly from posterior tibial artery</li>
+                <li><strong>No muscular attachments</strong></li>
+                <li><strong>>50% articular cartilage</strong> coverage</li>
+                <li><strong>Retrograde flow</strong> to talar body</li>
+            </ul>
+
+            <h3>Hawkins Classification (Talar Neck)</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>AVN Rate</th>
+                        <th>Blood Supply</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>Type I</strong></td>
+                        <td>Nondisplaced</td>
+                        <td>Low</td>
+                        <td>2/3 vessels intact</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>Type II</strong></td>
+                        <td>ST joint disruption</td>
+                        <td>Moderate</td>
+                        <td>1/3 vessels intact (deltoid)</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>Type III</strong></td>
+                        <td>ST + ankle disruption</td>
+                        <td>High (~50%)</td>
+                        <td>Complete compromise</td>
+                    </tr>
+                    <tr class="stage4">
+                        <td><strong>Type IV</strong></td>
+                        <td>+ TN joint disruption</td>
+                        <td>Very High</td>
+                        <td>Head and body at risk</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Management Points</h3>
+            <ul>
+                <li><strong>Immediate reduction</strong> for dislocations</li>
+                <li><strong>Preserve deltoid artery</strong> (only remaining supply in Type II)</li>
+                <li><strong>Most common complication:</strong> Subtalar arthritis</li>
+            </ul>
+
+            <div class="testable-fact">
+                <strong>Hawkins sign:</strong> Subchondral lucency at 6-8 weeks = revascularization (good prognostic sign)
+            </div>
+        </div>
+
+        <!-- Slide 27: Calcaneus Fractures -->
+        <div class="slide">
+            <h2>Calcaneus Fractures</h2>
+
+            <h3>Mechanism & Pathology</h3>
+            <ul>
+                <li><strong>High-energy trauma:</strong> Fall from height, MVA</li>
+                <li><strong>"Blow-out" of lateral wall:</strong> Subfibular impingement</li>
+                <li><strong>20% peroneal tendon dislocation</strong></li>
+                <li><strong>Evaluate for:</strong> Vertebral fractures (concomitant injury)</li>
+            </ul>
+
+            <h3>Sanders CT Classification</h3>
+            <div class="anatomy-diagram">
+                <svg width="400" height="200" viewBox="0 0 400 200">
+                    <!-- Calcaneus outline -->
+                    <path d="M 50 100 Q 100 80 200 90 Q 250 95 300 110 Q 280 140 200 130 Q 100 125 50 100" fill="#ff9800" opacity="0.3"/>
+                    
+                    <!-- Posterior facet divisions -->
+                    <line x1="150" y1="90" x2="150" y2="130" stroke="#2196f3" stroke-width="2"/>
+                    <line x1="200" y1="90" x2="200" y2="130" stroke="#2196f3" stroke-width="2"/>
+                    <line x1="250" y1="95" x2="250" y2="120" stroke="#2196f3" stroke-width="2"/>
+                    
+                    <text x="125" y="85" font-size="12" text-anchor="middle">A</text>
+                    <text x="175" y="85" font-size="12" text-anchor="middle">B</text>
+                    <text x="225" y="85" font-size="12" text-anchor="middle">C</text>
+                    
+                    <text x="50" y="160" font-size="14"><strong>Type 1:</strong> Nondisplaced</text>
+                    <text x="50" y="175" font-size="14"><strong>Type 2:</strong> 2-part (2A, 2B, 2C)</text>
+                    <text x="50" y="190" font-size="14"><strong>Type 3:</strong> 3-part (3AB, 3AC, 3BC)</text>
+                    <text x="300" y="175" font-size="14"><strong>Type 4:</strong> 4+ parts</text>
+                </svg>
+            </div>
+
+            <h3>Treatment Guidelines</h3>
+            <table class="severity-table">
+                <thead>
+                    <tr>
+                        <th>Sanders Type</th>
+                        <th>Treatment</th>
+                        <th>Approach</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stage1">
+                        <td><strong>Type I</strong></td>
+                        <td>Conservative</td>
+                        <td>Cast immobilization</td>
+                    </tr>
+                    <tr class="stage2">
+                        <td><strong>Types II-III</strong></td>
+                        <td>ORIF vs Conservative</td>
+                        <td>Extensile lateral or sinus tarsi</td>
+                    </tr>
+                    <tr class="stage3">
+                        <td><strong>Type IV</strong></td>
+                        <td>ORIF + primary ST fusion</td>
+                        <td>Extensile lateral</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 28: Calcaneus Fractures - Outcomes -->
+        <div class="slide">
+            <h2>Calcaneus Fractures — Outcomes & Complications</h2>
+
+            <h3>Radiographic Measurements</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Böhler angle:</strong> Normal 25-40°</li>
+                    <li><strong>Critical angle of Gissane:</strong> Normal 120-145°</li>
+                    <li><strong>Broden views:</strong> Assess posterior facet displacement</li>
+                </ul>
+            </div>
+
+            <h3>Operative vs Conservative Outcomes</h3>
+            <div class="classification-box">
+                <h4>Better outcomes with surgery in:</h4>
+                <ul>
+                    <li>Significant intraarticular displacement</li>
+                    <li>Flattened Böhler angle</li>
+                    <li>Female sex</li>
+                    <li>Age <29 years</li>
+                    <li>Non-workers' compensation</li>
+                </ul>
+            </div>
+
+            <h3>Complications</h3>
+            <ul>
+                <li><strong>Delayed wound healing:</strong> 25-30% with extensile approach</li>
+                <li><strong>Deep infection:</strong> 1-4%</li>
+                <li><strong>50% decreased ST ROM</strong> regardless of treatment</li>
+                <li><strong>Posttraumatic arthritis:</strong> Common</li>
+            </ul>
+
+            <h3>Technical Considerations</h3>
+            <div class="critical-pearl">
+                <strong>Wrinkle sign:</strong> Wait for skin wrinkles over lateral hindfoot before surgery (swelling resolved)
+            </div>
+
+            <div class="testable-fact">
+                <strong>FHL at risk:</strong> During lateral-to-medial screw placement at sustentaculum level
+            </div>
+        </div>
+
+        <!-- Slide 29: Pilon Fractures -->
+        <div class="slide">
+            <h2>Pilon Fractures</h2>
+
+            <h3>Demographics & Mechanism</h3>
+            <ul>
+                <li><strong>4th decade of life, male predominance</strong></li>
+                <li><strong>High-energy mechanism:</strong> Fall from height, MVA</li>
+                <li><strong>Axial load</strong> to tibial plafond</li>
+            </ul>
+
+            <h3>Common Fragment Patterns</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Medial fragment:</strong> Deltoid ligament attachment</li>
+                    <li><strong>Volkmann fragment:</strong> Posterior tibiofibular ligament</li>
+                    <li><strong>Chaput fragment:</strong> Anterior tibiofibular ligament</li>
+                </ul>
+            </div>
+
+            <h3>Treatment Principles</h3>
+            <div class="classification-box">
+                <h4>Staged Protocol (Standard):</h4>
+                <ol>
+                    <li><strong>Primary external fixation</strong> (fibular fixation not necessary)</li>
+                    <li><strong>Wait for swelling resolution</strong></li>
+                    <li><strong>Delayed ORIF</strong> when soft tissues permit</li>
+                </ol>
+            </div>
+
+            <h3>ORIF Principles</h3>
+            <ul>
+                <li><strong>Anatomic reduction</strong> and rigid fixation of articular surface</li>
+                <li><strong>Preserve tibial length</strong></li>
+                <li><strong>Reconstruct metaphyseal shell</strong></li>
+                <li><strong>Bone graft</strong> metaphyseal defects</li>
+                <li><strong>Bridge plating technique</strong> acceptable</li>
+            </ul>
+
+            <div class="testable-fact">
+                <strong>Immediate ORIF:</strong> Unacceptable wound complication rates
+            </div>
+        </div>
+
+        <!-- Slide 30: Summary - High-Yield Pearls -->
+        <div class="slide">
+            <h2>High-Yield Board Pearls</h2>
+
+            <div class="critical-pearl">
+                <h3>🔥 Most Tested Classifications & Values</h3>
+                <ul>
+                    <li><strong>HVA &lt;15°, IMA &lt;9°, DMAA &lt;10°</strong> (Hallux valgus)</li>
+                    <li><strong>Semmes-Weinstein 5.07 monofilament</strong> = 10g neuropathy test</li>
+                    <li><strong>Hawkins classification</strong> for talus (AVN risk)</li>
+                    <li><strong>Sanders classification</strong> for calcaneus (treatment guide)</li>
+                    <li><strong>PTT dysfunction staging</strong> (Johnson & Strom)</li>
+                </ul>
+            </div>
+
+            <div class="testable-fact">
+                <h3>⚡ Quick-Fire Facts</h3>
+                <ul>
+                    <li><strong>ATFL weakest</strong> → PTFL strongest ankle ligament</li>
+                    <li><strong>62% stance, 38% swing</strong> phase in gait</li>
+                    <li><strong>Most common cause adult flatfoot:</strong> PTT dysfunction</li>
+                    <li><strong>Lisfranc interosseous component strongest</strong></li>
+                    <li><strong>1mm lateral talar shift = 42% contact loss</strong></li>
+                    <li><strong>Braking recovery: 9 weeks</strong> post ankle fracture ORIF</li>
+                    <li><strong>Sanders Type IV = primary ST fusion</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-points">
+                <h3>🎯 Operative Indications (Know These!)</h3>
+                <ul>
+                    <li><strong>Hallux valgus:</strong> IMA >13° = proximal osteotomy</li>
+                    <li><strong>PTT dysfunction:</strong> 6+ months failed conservative</li>
+                    <li><strong>Lisfranc:</strong> ANY displacement = ORIF</li>
+                    <li><strong>Ankle fractures:</strong> Unstable patterns, syndesmotic disruption</li>
+                    <li><strong>Calcaneus:</strong> Sanders II-III controversial, IV needs fusion</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, var(--primary-blue), var(--teal)); color: white; border-radius: 12px;">
+                <h2 style="color: white; margin-bottom: 1rem;">Good Luck on Your Boards!</h2>
+                <p style="font-size: 1.2rem; margin: 0;">Focus on classifications, normal values, and operative indications</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-indicators" id="slideIndicators">
+        <!-- Indicators will be generated by JavaScript -->
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const slideContainer = document.getElementById('slideContainer');
+        const progressBar = document.querySelector('.progress-bar');
+        const slideIndicators = document.getElementById('slideIndicators');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentSlide = 0;
+        let isNavigating = false;
+
+        // Slide titles for indicators
+        const slideTitles = [
+            "Title",
+            "Overview",
+            "Biomechanics",
+            "Gait Cycle",
+            "Foot Mechanics",
+            "Hallux Valgus Anatomy",
+            "Hallux Valgus Surgery",
+            "Hallux Special Cases",
+            "Lesser Toes",
+            "Ankle Sprains",
+            "PTT Dysfunction",
+            "PTT Surgery",
+            "Achilles Disorders",
+            "Achilles Surgery",
+            "Diabetic Foot",
+            "Ulcer Management",
+            "Charcot",
+            "Diabetic Surgery",
+            "Lisfranc Anatomy",
+            "Lisfranc Diagnosis",
+            "Lisfranc Treatment",
+            "Lisfranc Complications",
+            "Ankle Fractures",
+            "Ankle Management",
+            "Syndesmosis",
+            "Talus Fractures",
+            "Calcaneus Fractures",
+            "Calcaneus Outcomes",
+            "Pilon Fractures",
+            "Summary Pearls"
+        ];
+
+        // Initialize slide indicators
+        function initializeIndicators() {
+            slideIndicators.innerHTML = '';
+            slides.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = `indicator ${index === 0 ? 'active' : ''}`;
+                indicator.setAttribute('data-title', slideTitles[index] || `Slide ${index + 1}`);
+                indicator.addEventListener('click', () => goToSlide(index));
+                slideIndicators.appendChild(indicator);
+            });
+        }
+
+        // Navigate to specific slide
+        function goToSlide(index, smooth = true) {
+            if (index < 0 || index >= slides.length || isNavigating) return;
+            
+            isNavigating = true;
+            const targetSlide = slides[index];
+            
+            targetSlide.classList.add('visible');
+            targetSlide.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+            
+            currentSlide = index;
+            updateNav();
+            updateProgress();
+            
+            setTimeout(() => {
+                isNavigating = false;
+            }, smooth ? 600 : 100);
+        }
+
+        // Update navigation state
+        function updateNav() {
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            
+            // Update indicators
+            document.querySelectorAll('.indicator').forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Intersection Observer for automatic slide detection
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !isNavigating) {
+                    entry.target.classList.add('visible');
+                    const index = Array.from(slides).indexOf(entry.target);
+                    if (index !== currentSlide) {
+                        currentSlide = index;
+                        updateNav();
+                        updateProgress();
+                    }
+                }
+            });
+        }, { 
+            threshold: 0.3,
+            rootMargin: '-10% 0px -10% 0px'
+        });
+
+        // Observe all slides
+        slides.forEach(slide => observer.observe(slide));
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    goToSlide(currentSlide - 1);
+                    break;
+                case 'ArrowRight':
+                case 'ArrowDown':
+                case ' ':
+                    e.preventDefault();
+                    goToSlide(currentSlide + 1);
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    goToSlide(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    goToSlide(slides.length - 1);
+                    break;
+            }
+        });
+
+        // Touch/swipe support
+        let startY = 0;
+        let startX = 0;
+
+        slideContainer.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+            startX = e.touches[0].clientX;
+        });
+
+        slideContainer.addEventListener('touchend', (e) => {
+            if (!startY || !startX) return;
+            
+            const endY = e.changedTouches[0].clientY;
+            const endX = e.changedTouches[0].clientX;
+            const diffY = startY - endY;
+            const diffX = startX - endX;
+            
+            // Determine if it's a vertical or horizontal swipe
+            if (Math.abs(diffY) > Math.abs(diffX)) {
+                // Vertical swipe
+                if (Math.abs(diffY) > 50) { // Minimum swipe distance
+                    if (diffY > 0) {
+                        // Swipe up - next slide
+                        goToSlide(currentSlide + 1);
+                    } else {
+                        // Swipe down - previous slide
+                        goToSlide(currentSlide - 1);
+                    }
+                }
+            }
+            
+            startY = 0;
+            startX = 0;
+        });
+
+        // Initialize
+        initializeIndicators();
+        updateNav();
+        updateProgress();
+        
+        // Make first slide visible immediately
+        if (slides[0]) {
+            slides[0].classList.add('visible');
+        }
+
+        // Prevent accidental page navigation on space
+        window.addEventListener('keydown', (e) => {
+            if(e.key === ' ' && e.target === document.body) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
